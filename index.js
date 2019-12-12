@@ -1,8 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
+app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
@@ -24,21 +26,21 @@ let persons = [
     }
 ]
 
-app.get('/info', (req, res) => {
+app.get('/api/info', (req, res) => {
     const count = persons.length
     const timestamp = Date(Date.now())
     res.send(`<h2>Phonebook has info for ${count} people.</h2><h2>${timestamp}</h2>`)
 })
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
     res.send('<h1>Hello Page!</h1>')
 })
 
-app.get('/persons', (req, res) => {
+app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
 
-app.get('/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     const person = persons.find(person => person.id === id)
     if(person) {
@@ -48,7 +50,7 @@ app.get('/persons/:id', (req, res) => {
     }
 })
 
-app.post('/persons', (req, res) => {
+app.post('/api/persons', (req, res) => {
     const body = req.body
     if(!body.name) {
         return res.status(400).json({ error: "Name is missing."})
@@ -74,12 +76,13 @@ app.post('/persons', (req, res) => {
     res.json(persons)
 })
 
-app.delete('/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person => person.id !== id)
     res.status(204).end()
 })
 
-const port = 3001
-app.listen(port)
-console.log(`Server is running on port ${port}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
