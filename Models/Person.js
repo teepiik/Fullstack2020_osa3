@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// environment variable
 const url = process.env.MONGODB_URL
 
 mongoose.connect(url, { useNewUrlParser: true })
