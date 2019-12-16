@@ -11,30 +11,17 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
-/*
-let persons = [
-    {
-        name: "Arto Hellas",
-        number: "3132-3231-33",
-        id: 1
-    },
-    {
-        name: "Ada Lovelace",
-        number: "123-456",
-        id: 2
-    },
-    {
-        name: "Dan Abramov",
-        number: "53-4222144-567",
-        id: 3
-    }
-]
 
 app.get('/api/info', (req, res) => {
-    const count = persons.length
+    const count = 0
+    Person.find({})
+        .then(persons => {
+            count = persons.length
+        })
+
     const timestamp = Date(Date.now())
     res.send(`<h2>Phonebook has info for ${count} people.</h2><h2>${timestamp}</h2>`)
-})*/
+})
 
 app.get('/api/', (req, res) => {
     res.send('<h1>Hello Page!</h1>')
@@ -102,7 +89,7 @@ app.put('/api/persons/:id', (req, res, next) => {
     
 
 app.delete('/api/persons/:id', (req, res, next) => {
-    Person.findByIdAndRemove(request.params.id)
+    Person.findByIdAndRemove(req.params.id)
         .then(result => {
             res.status(204).end()
         })
