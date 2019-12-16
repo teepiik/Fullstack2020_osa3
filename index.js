@@ -14,13 +14,12 @@ app.use(morgan('tiny'))
 
 app.get('/api/info', (req, res) => {
     const count = 0
+    const timestamp = Date(Date.now())
     Person.find({})
         .then(persons => {
             count = persons.length
         })
-
-    const timestamp = Date(Date.now())
-    res.send(`<h2>Phonebook has info for ${count} people.</h2><h2>${timestamp}</h2>`)
+        .then(res.send(`<h2>Phonebook has info for ${count} people.</h2><h2>${timestamp}</h2>`))  
 })
 
 app.get('/api/', (req, res) => {
