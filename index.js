@@ -11,15 +11,13 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
-
+// FIX COUNT
 app.get('/api/info', (req, res) => {
-    const count = 0
     const timestamp = Date(Date.now())
     Person.find({})
         .then(persons => {
-            count = persons.length
-        })
-        .then(res.send(`<h2>Phonebook has info for ${count} people.</h2><h2>${timestamp}</h2>`))  
+            res.send(`<h2>Phonebook has info for ${persons.length} people.</h2><h2>${timestamp}</h2>`)
+        })  
 })
 
 app.get('/api/', (req, res) => {
