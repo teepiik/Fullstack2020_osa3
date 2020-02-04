@@ -9,9 +9,11 @@ const app = express()
 app.use(cors())
 app.use(express.static('build'))
 app.use(bodyParser.json())
-app.use(morgan('tiny'))
 
-// FIX COUNT
+morgan.token('body', (req, res) => { return JSON.stringify(req.body)})
+//app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :response-time ms - :body'))
+
 app.get('/api/info', (req, res) => {
     const timestamp = Date(Date.now())
     Person.find({})
